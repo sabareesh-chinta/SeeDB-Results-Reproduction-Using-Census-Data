@@ -1,14 +1,16 @@
+drop table adults, all_adults, married_adults, unmarried_adults;
+
 create table adults (age integer NULL, workclass varchar(50) NULL,fnlwgt integer NULL, education varchar(50) NULL, education_num integer NULL, marital_status varchar(50) NULL, occupation varchar(50) NULL, relationship varchar(50) NULL, race varchar(50) NULL, sex varchar(50) NULL, capital_gain integer NULL, capital_loss integer NULL, hours_per_week integer NULL, native_country varchar(50) NULL, salaray_range varchar NULL);
 
-\COPY adults FROM 'f_adults.csv' DELIMITER ',' HEADER CSV;
+\COPY adults FROM 'Data/f_adults.csv' DELIMITER ',' HEADER CSV;
 
-DELETE FROM adults; # For emptying!
+delete from adults; # For emptying!
 
 ## For training + testing data: 
 
 create table all_adults (age integer NULL, workclass varchar(50) NULL,fnlwgt integer NULL, education varchar(50) NULL, education_num integer NULL, marital_status varchar(50) NULL, occupation varchar(50) NULL, relationship varchar(50) NULL, race varchar(50) NULL, sex varchar(50) NULL, capital_gain integer NULL, capital_loss integer NULL, hours_per_week integer NULL, native_country varchar(50) NULL, salary_range varchar NULL);
 
-\COPY all_adults FROM 'adults_total.csv' DELIMITER ',' HEADER CSV;
+\COPY all_adults FROM 'Data/adults_total.csv' DELIMITER ',' HEADER CSV;
 
 ## Creating Married and Unmarried tables.
 
