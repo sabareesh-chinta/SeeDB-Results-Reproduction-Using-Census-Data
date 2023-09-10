@@ -1,20 +1,18 @@
-drop table adults, all_adults, married_adults, unmarried_adults;
+drop table ev, all_ev, us_ev, non_us_ev;
 
-create table adults (age integer NULL, workclass varchar(50) NULL,fnlwgt integer NULL, education varchar(50) NULL, education_num integer NULL, marital_status varchar(50) NULL, occupation varchar(50) NULL, relationship varchar(50) NULL, race varchar(50) NULL, sex varchar(50) NULL, capital_gain integer NULL, capital_loss integer NULL, hours_per_week integer NULL, native_country varchar(50) NULL, salaray_range varchar NULL);
+create table ev (county varchar(50) NULL, city varchar(50) NULL, state_code varchar(2) NULL, model_year integer NULL, make varchar(50) NULL, ev_type varchar(100) NULL, cafv varchar(100) NULL, range_miles integer NULL, utility varchar(200) NULL);
 
-\COPY adults FROM 'Data/f_adults.csv' DELIMITER ',' HEADER CSV;
-
-delete from adults; # For emptying!
+\COPY ev FROM 'Data/ev_population.csv' DELIMITER ',' HEADER CSV;
 
 ## For training + testing data: 
 
-create table all_adults (age integer NULL, workclass varchar(50) NULL,fnlwgt integer NULL, education varchar(50) NULL, education_num integer NULL, marital_status varchar(50) NULL, occupation varchar(50) NULL, relationship varchar(50) NULL, race varchar(50) NULL, sex varchar(50) NULL, capital_gain integer NULL, capital_loss integer NULL, hours_per_week integer NULL, native_country varchar(50) NULL, salary_range varchar NULL);
+create table all_ev (county varchar(50) NULL, city varchar(50) NULL, state_code varchar(2) NULL, model_year integer NULL, make varchar(50) NULL, ev_type varchar(100) NULL, cafv varchar(100) NULL, range_miles integer NULL, utility varchar(200) NULL, us_or_non_us varchar(50) NULL);
 
-\COPY all_adults FROM 'Data/adults_total.csv' DELIMITER ',' HEADER CSV;
+\COPY all_ev FROM 'Data/ev_population_total.csv' DELIMITER ',' HEADER CSV;
 
-## Creating Married and Unmarried tables.
+## Creating US and Non-US EV tables.
 
-create table unmarried_adults as select * from all_adults where marital_status ='Unmarried';
-alter table unmarried_adults drop marital_status;
-create table married_adults as select * from all_adults where marital_status ='Married';
-alter table married_adults drop marital_status;
+create table non_us_ev as select * from all_ev where us_or_non_us ='Rest of the World';
+alter table non_us_ev drop us_or_non_us;
+create table us_ev as select * from all_ev where us_or_non_us ='US';
+alter table us_ev drop us_or_non_us;
